@@ -1,0 +1,92 @@
+{%extends 'base.html'%}
+
+{%block content%}
+  <div class="center">
+	  <form method="post" class="card" novalidate>
+	  	{% csrf_token %}
+	    <h2 class="text-center">Login to your account</h2>
+		{% for field in form %}
+	    		{{ field.label_tag }}
+	        	{{ field }}
+	        	{% if field.errors %}
+	        		<small>{{ field.errors|striptags }}</small>
+	        	{% endif %}
+		{% endfor %}
+
+		<input type="submit" value="Login" class="btn btn-success full-width">
+		<hr>
+		<p class="text-center">Don't have an account? <a href="http://127.0.0.1:8000/register/?next=/">Join Now</a></p>
+	</form>
+</div>
+<style>
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px;
+        font-size: 1rem;
+        width: 100%;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .error-message {
+        color: red;
+        display: block;
+        margin-top: -10px;
+        margin-bottom: 10px;
+    }
+
+    hr {
+        margin: 10px 0;
+    }
+
+    p a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    p a:hover {
+        text-decoration: underline;
+    }
+</style>
+{%endblock content%}

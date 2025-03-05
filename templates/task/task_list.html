@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block css %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .container {
+        background: white;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        text-align: center;
+        width: 400px;
+    }
+    h1 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    .btn-add {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .btn-add:hover {
+        background: #218838;
+    }
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+    li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        margin: 5px 0;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    .button-container {
+        display: flex;
+        gap: 5px;
+    }
+    .btn-delete {
+        background: red;
+        border: none;
+        padding: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        color: white;
+    }
+    .btn-delete:hover {
+        background: darkred;
+    }
+    .btn-edit {
+        background: #007bff;
+        border: none;
+        padding: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        color: white;
+    }
+    .btn-edit:hover {
+        background: #0056b3;
+    }
+    .overdue {
+        background-color: #ffcccc !important;
+    }
+    .filter-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    }
+    .filter-container a {
+    text-decoration: none;
+    color: white;
+    background: #007bff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background 0.3s;
+    }
+
+    .filter-container a:hover {
+    background: #0056b3;
+    }
+
+    .filter-container .active {
+    background: #0056b3;
+    font-weight: bold;
+    }
+    .task-title {
+    word-break: break-all;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+    <div class="container">
+        <h1>📋 My tasks</h1>
+        <form action="{% url 'add_task' %}" method="POST">
+            {% csrf_token %}
+            {% bootstrap_form task_form show_label=False %}
+            <button type="submit" class="btn-add">➕</button>
+        </form>
+        <ul>
+            {% for task in tasks %}
+                 <li class="{% if task.deadline and task.deadline < today %} overdue {% endif %}">
+                    <span class="task-title">
+
+                         {{ task.title }}
+                        {% if task.deadline %}
+                            <br><small>⏳ Deadline: {{ task.deadline }}</small>
+                        {% endif %}
+                    </span>
+                    <div class="button-container">
+                        <a href="{% url 'edit_task' task.id %}">
+                            <button class="btn-edit">✏️</button>
+                        </a>
+                        <a href="{% url 'delete_task' task.id %}">
+                            <button class="btn-delete">❌</button>
+                        </a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock content %}

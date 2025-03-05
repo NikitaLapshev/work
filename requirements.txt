@@ -1,0 +1,9 @@
+django
+djangorestframework
+django-cors-headers
+django-bootstrap5
+django-crispy-forms
+celery
+psycopg2-binary
+celery[redis]
+

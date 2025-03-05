@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+    <div class="container">
+        <h1>Edit task</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button type="submit" class="btn">Save</button>
+        </form>
+        <a href="{% url 'task_list' %}" class="back-link">Back to task list</a>
+    </div>
+{% endblock content %}
